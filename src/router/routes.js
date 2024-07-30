@@ -30,6 +30,14 @@ const routes = [
           {
             path: "deals",
             component: () => import("pages/ProfileDeals.vue")
+          },
+          {
+            path: "backtesting",
+            component: () => import("pages/ProfileBacktesting.vue")
+          },
+          {
+            path: "reports",
+            component: () => import("pages/ProfileReports.vue")
           }
         ]
       },

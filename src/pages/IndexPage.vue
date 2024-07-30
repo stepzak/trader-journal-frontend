@@ -353,4 +353,16 @@ export default defineComponent({
   margin-top: 4rem!important;
 }
 
+.w-90{
+  width: 90%
+}
+
+.gap-md{
+  gap: .5rem!important;
+}
+
+.gap-lg{
+  gap: 1rem!important;
+}
+
 </style>

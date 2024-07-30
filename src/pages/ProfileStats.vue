@@ -30,7 +30,7 @@
               :responsive="true"
               :vertical-compact="false"
               :use-css-transforms="true"
-              ref = "gridLayout"
+              ref="gridLayout"
   >
     <GridItem v-for="item in selectedBoard.widgets" class="border-white border-radius-12 q-pa-sm bg-secondary-color"
                :static="false"
@@ -118,7 +118,7 @@
         <q-input :disable="var_loading" style="width: 100%" v-model="var_trust" label="Доверие" outlined label-color="white" input-class="text-white" @update:model-value="e=>{getVar(e)}"></q-input>
         <div class="q-mt-lg text-center text-h2">VaR:</div>
         <div class="q-mt-lg text-center text-h3" v-if="!var_loading">
-          {{Math.round(var_value*1000)/1000}}%
+          {{Math.round(var_value*1000)/1000}} USDT
         </div>
         <q-spinner v-else size="lg">
 
@@ -1108,6 +1108,7 @@ export default {
       BoardsService.updateBoard(this.selectedBoard.id, this.selectedBoard).then(res=>{
         this.selectedBoard=res.data
         BoardsService.getBoards().then(res1=>{
+
           this.boards=res1.data
           this.boards.push({name: "+ Добавить новый"})
           this.$q.notify({color: "positive", message: "Успешно"})
@@ -1299,8 +1300,8 @@ export default {
     },
     async addItem(item_id, w, h, minW, minH, maxW, maxH, stat){
       let itemMd = {
-        x: (this.selectedBoard.widgets.length * 2) % (this.colNum || (this.width > 500 ? 12: 1)),
-        y: this.selectedBoard.widgets.length + (this.width > 500 ? 12: 1), // puts it at the bottom
+        x: (this.selectedBoard.widgets.length * 2) % (this.colNum || 12),
+        y: this.selectedBoard.widgets.length + (this.colNum || 12),
         w: w,
         h: h,
         minW: minW,
@@ -1309,7 +1310,7 @@ export default {
         maxH: maxH,
         static: stat,
         templateId: item_id,
-        i: "1"
+        i: uid()
       }
 
       try{
@@ -1481,6 +1482,29 @@ async mounted(){
       })
       boards.push(board)
     })*/
+    let boards = []
+
+    res.data.forEach(x=>{
+      let widgets = []
+      x.widgets.forEach(obj=>{
+        let widget = obj
+        if(widgets.length===0){
+
+          widget.x = 0
+          widget.y=0
+
+        }
+        else{
+          widget.x = (widgets.length * 2) % (this.colNum || (this.width > 500 ? 12: 1))
+            widget.y = widgets.length + (this.width > 500 ? 12: 1) // puts it at the bottom
+        }
+        widgets.push(widget)
+      })
+      x.widgets= widgets
+
+
+      })
+
     this.boards=res.data
     this.boards.push({name: "+ Добавить новую"})
     this.selectedBoard=res.data[0]
@@ -1511,8 +1535,12 @@ async mounted(){
       catch{
 
       }
-      this.$refs.gridLayout[0].lastBreakpoint = null;
-      this.$refs.gridLayout[0].layouts = {};
+      this.$nextTick(()=>{
+        console.log(this.$refs.gridLayout)
+        this.$refs.gridLayout.lastBreakpoint = null;
+        this.$refs.gridLayout.layouts = {};
+      })
+
     })
 
   })

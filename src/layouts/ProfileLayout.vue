@@ -51,7 +51,7 @@
         </q-toolbar-title>
       </q-toolbar>
     </q-footer>
-    <q-page-container style="max-height: 100vh; overflow-y: auto; margin-bottom: calc(var(--footer-height)+ 10px);">
+    <q-page-container style="max-height: 100vh; overflow-y: auto; margin-bottom: calc(var(--footer-height)+ 10px);" >
       <router-view />
     </q-page-container>
   </q-layout>
@@ -86,6 +86,18 @@ const linksList = [
     caption: "История сделок",
     icon: "calendar_month",
     link: "/profile/deals"
+  },
+  {
+    title: "Бэктэстинг стратегий",
+    caption: "Создание стратегии и ее симуляция на основе исторических данных",
+    icon: "currency_bitcoin",
+    link: "/profile/backtesting"
+  },
+  {
+    title: "Отчеты",
+    caption: "Просмотреть отчеты",
+    icon: "summarize",
+    link: "/profile/reports"
   }
 ]
 export default {
@@ -131,3 +143,4 @@ export default {
   }
 }
 </script>
+
